@@ -144,7 +144,11 @@ function template_preprocess_datatables_view(&$vars) {
     $position++;
   }
   
+  // Enable table info display, if necessary.
   $datatable_options['bInfo'] = $options['table_info'];
+
+  // Disable search filter box, if necessary.
+  $datatable_options['bFilter'] = $options['search_box'];
   
   foreach ($vars['rows'] as $num => $row) {
     $vars['row_classes'][$num][] = ($num % 2 == 0) ? 'odd' : 'even';
