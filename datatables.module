@@ -178,6 +178,14 @@ function template_preprocess_datatables_view(&$vars) {
   $position = 0;
   foreach ($columns as $field => $column) {
     $column_options = NULL;
+    
+    if ($options['hidden_columns'][$field]) {
+     // Hidden or expandable columns get the bVisible init option set to false
+     $column_options['bVisible'] = FALSE;
+
+     $datatable_options['bExpandable'] = TRUE;
+    }
+
     // render the header labels
     if ($field == $column && empty($fields[$field]->options['exclude'])) {
       $vars['header'][$field] = check_plain(!empty($fields[$field]) ? $fields[$field]->label() : '');
@@ -198,6 +206,9 @@ function template_preprocess_datatables_view(&$vars) {
         $column_options['bSortable'] = TRUE;
       }
       $datatable_options['aoColumns'][] = $column_options;
+
+      // Save header columns for use in expandable hidden rows.
+      $datatable_options['aoColumnHeaders'][] = $vars['header'][$field];
     }
 
     // Set default sort order
@@ -239,15 +250,47 @@ function template_preprocess_datatables_view(&$vars) {
   }
   
   // Enable table info display, if necessary.
-  $datatable_options['bInfo'] = $options['table_info'];
-
-  // Disable search filter box, if necessary.
-  $datatable_options['bFilter'] = $options['search_box'];
+  $datatable_options['bInfo'] = $options['elements']['table_info'];
+  $datatable_options['bFilter'] = $options['elements']['search_box'];
+  $datatable_options['bStateSave'] = $options['elements']['save_state'];
   
+  $datatable_options['bLengthChange'] = $options['pages']['length_change'];
+  $datatable_options['iDisplayLength'] = (int) $options['pages']['display_length'];
+  
+  // Enable ThemeRoller support, if necessary.
+  if($options['layout']['themeroller']) {
+    $datatable_options['bJQueryUI'] = TRUE;
+  }
+  
+  // Pass the sDOM parameter, if one is specified.
+  if ($options['layout']['sdom']) {
+    $datatable_options['sDom'] = $options['layout']['sdom'];  
+  }
+  
+    $datatable_options['bAutoWidth'] = $options['layout']['autowidth'];
+    
+  // Enable full_numbers pagination if selected
+  switch ($options['pages']['pagination_style']) {
+    case 'full_numbers':
+      $datatable_options['sPaginationType'] = 'full_numbers';
+      break;
+    
+    case 'no_pagination':
+      $datatable_options['bPaginate'] = FALSE;
+      break;
+    
+    default: 
+      // Do nothing. No parameters need to be sent for the default (two-button) style
+      break;
+  }
+
+  // Enable table info display, if necessary.
+
+
   foreach ($vars['rows'] as $num => $row) {
     $vars['row_classes'][$num][] = ($num % 2 == 0) ? 'odd' : 'even';
   }
-
+  
   $vars['class'] = 'views-table';
   $vars['id'] = _datatables_get_id();
 
