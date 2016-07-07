@@ -174,15 +174,10 @@ class DataTables extends Table {
     ];
 
     $form['pages']['display_length'] = [
-      '#type' => 'select',
+      '#type' => 'number',
       '#title' => $this->t('Default Page Length'),
       '#description' => $this->t('Default number of records to show per page. May be adjusted by users if Length Selection is enabled'),
-      '#options' => [
-        10 => 10,
-        25 => 25,
-        50 => 50,
-        100 => 100,
-      ],
+      '#min' => 1,
       '#default_value' => $this->options['pages']['display_length'],
     ];
 
