@@ -74,14 +74,16 @@ function template_preprocess_views_view_datatables(&$variables) {
 
         // Attempt to autodetect the type of field in order to handle sorting
         // correctly.
-        if (is_numeric($fields[$field]->last_render->__toString())) {
-          $column_options['sType'] = 'numeric';
-        }
-        elseif (Unicode::strlen($fields[$field]->last_render->__toString()) != Unicode::strlen(strip_tags($fields[$field]->last_render->__toString()))) {
-          $column_options['sType'] = 'html';
-        }
-        elseif ($info && $info->getType() == 'datetime') {
-          $column_options['sType'] = 'date';
+        if (is_object($fields[$field]->last_render)) {
+          if (is_numeric($fields[$field]->last_render->__toString())) {
+            $column_options['sType'] = 'numeric';
+          }
+          elseif (Unicode::strlen($fields[$field]->last_render->__toString()) != Unicode::strlen(strip_tags($fields[$field]->last_render->__toString()))) {
+            $column_options['sType'] = 'html';
+          }
+          elseif ($info && $info->getType() == 'datetime') {
+            $column_options['sType'] = 'date';
+          }
         }
 
         $column_options['bSortable'] = TRUE;
