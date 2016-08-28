@@ -96,7 +96,7 @@ class DataTables extends Table {
     $form['elements']['search_box'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable the search filter box.'),
-      '#description' => 'The search filter box allows users to dynamically filter the results in the table.  Disabling this option will hide the search filter box from users.',
+      '#description' => $this->t('The search filter box allows users to dynamically filter the results in the table.  Disabling this option will hide the search filter box from users.'),
       '#default_value' => $this->options['elements']['search_box'],
     ];
 
