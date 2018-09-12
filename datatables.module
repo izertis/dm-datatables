@@ -138,7 +138,7 @@ function template_preprocess_views_view_datatables(&$variables) {
   }
 
   // Enable TableTools plugin support, if necessary.
-  if ($options['elements']['table_tools']) {
+  if (isset($options['elements']['table_tools']) && $options['elements']['table_tools']) {
     $datatable_options['oTableTools'] = [
       'sSwfPath' => base_path() . 'libraries/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf',
     ];
