@@ -42,6 +42,7 @@ function template_preprocess_views_view_datatables(&$variables) {
   $columns = $handler->sanitizeColumns($options['columns'], $fields);
 
   $position = 0;
+
   foreach ($columns as $field => $column) {
     $column_options = NULL;
 
@@ -84,9 +85,12 @@ function template_preprocess_views_view_datatables(&$variables) {
             $column_options['sType'] = 'date';
           }
         }
-
         $column_options['bSortable'] = TRUE;
       }
+
+      // Add filter column setting:
+      $column_options['sFilterColumnType'] = $options['filter_columns'][$field] ?? FALSE;
+
       $datatable_options['aoColumns'][] = $column_options;
       $datatable_options['aoColumnHeaders'][] = $variables['header'][$field];
     }
@@ -104,7 +108,8 @@ function template_preprocess_views_view_datatables(&$variables) {
   $datatable_options['bInfo'] = $options['elements']['table_info'];
   $datatable_options['bFilter'] = $options['elements']['search_box'];
   $datatable_options['bStateSave'] = $options['elements']['save_state'];
-
+  $datatable_options['sFilterColumnsPlaceholder'] = $options['filter_columns_placeholder'];
+  $datatable_options['bFilterColumns'] = !empty($options['filter_columns']);
   $datatable_options['bLengthChange'] = $options['pages']['length_change'];
   $datatable_options['iDisplayLength'] = (int) $options['pages']['display_length'];
 
