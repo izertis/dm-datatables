@@ -31,6 +31,8 @@ function datatables_theme($existing, $type, $theme, $path) {
  * @see template_preprocess_views_view_table()
  */
 function template_preprocess_views_view_datatables(&$variables) {
+  // Ensure views.theme.inc is loaded:
+  \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
   template_preprocess_views_view_table($variables);
 
   $view = $variables['view'];
