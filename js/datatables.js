@@ -1,8 +1,8 @@
 (function ($) {
   Drupal.behaviors.datatables = {
-    attach: function (context, settings) {
+    attach: function (context, settings, once) {
       $.each(settings.datatables, function (selector) {
-        $(selector, context).once('datatables').each(function () {
+        once('datatables', selector, context).forEach(function() {
           // Check if table contains expandable hidden rows.
           var settings = drupalSettings.datatables[selector];
           if (settings.bExpandable) {
