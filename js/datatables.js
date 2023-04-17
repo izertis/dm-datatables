@@ -1,6 +1,6 @@
 (function ($) {
   Drupal.behaviors.datatables = {
-    attach: function (context, settings, once) {
+    attach: function (context, settings) {
       $.each(settings.datatables, function (selector) {
         once('datatables', selector, context).forEach(function() {
           // Check if table contains expandable hidden rows.
