@@ -4,7 +4,6 @@ datatables:
     js/datatables.js: {}
   dependencies:
     - core/jquery
-    - core/once
     - core/drupalSettings
 
 datatables_core:
